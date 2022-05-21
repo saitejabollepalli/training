@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
+
+namespace AccountDeo
+{
+	public class InMemoryAccountDaoImpl : AccountDao, IComparable<AccountDao>
+	{
+		internal int accountNumber;
+		internal double account_balance;
+		internal string name;
+		public InMemoryAccountDaoImpl(int accountNumber, double account_balance, string name) : base()
+		{
+			this.accountNumber = accountNumber;
+			this.account_balance = account_balance;
+			this.name = name;
+		}
+		public virtual void AddAnAccount(AccountDao account)
+		{
+
+			IList<AccountDao> list1 = new List<AccountDao>();
+			list1.Add(new InMemoryAccountDaoImpl(accountNumber, account_balance, name));
+		}
+
+		public virtual void withdraw(int accountNumber, double amount)
+		{
+
+			account_balance = account_balance - amount;
+			Console.WriteLine(amount + " was withdrawn from " + accountNumber);
+		}
+
+		public virtual void checkBalance()
+		{
+			Console.WriteLine("the balance is " + account_balance);
+
+		}
+
+		public virtual void changePassword(int accountNumber, string oldPassword, string newPassword)
+		{
+			Console.WriteLine(accountNumber + " old password was " + oldPassword + "new password is " + newPassword);
+		}
+
+		public virtual void getAccountDetails(int accountNumber)
+		{
+			Console.WriteLine(accountNumber);
+			Console.WriteLine("the balance is " + account_balance);
+			Console.WriteLine("the name of the account holder is " + name);
+
+		}
+
+        public void withdraw(int v1, int v2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo([AllowNull] AccountDao other)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

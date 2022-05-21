@@ -1,0 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace AccountDeo
+{
+    interface AccountDao
+    {
+		public interface AccountDao
+		{
+			void addAnAccount(AccountDao account);
+			void withdraw(int accountNumber, double amount);
+			void checkBalance();
+			void changePassword(int accountNumber, string oldPassword, string newPassword);
+			void getAccountDetails(int accountNumber);
+		}
+
+        void withdraw(int v1, int v2);
+        void getAccountDetails(int v);
+        void checkBalance();
+    }
+}

@@ -1,0 +1,20 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace AccountDeo
+{
+    class AccountMain
+    {
+		public static void Main(string[] args)
+		{
+			AccountDao a1 = new InMemoryAccountDaoImpl(123456, 500000, "name1");
+			AccountDao a2 = new InMemoryAccountDaoImpl(123457, 556000, "name2");
+			a1.checkBalance();
+			a1.getAccountDetails(123456);
+			a2.getAccountDetails(123457);
+			a2.withdraw(123457, 56000);
+			a2.checkBalance();
+		}
+	}
+}

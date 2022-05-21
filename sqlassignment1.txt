@@ -1,0 +1,84 @@
+create database dbemployee
+use dbemployee
+create table dept(deptno int primary key,dname varchar(20),loc varchar(20))
+
+insert into dept(deptno,dname,loc)values
+(10,'accounting','new york'),
+(20,'research', 'dallas'),
+(30,'sales','chicago'),
+(40,'operations','boston')
+
+select* from dept
+---creating employee table
+create table tblemp3(empno int primary key,
+             ename varchar(20),
+             job varchar(20),
+             mgr int,
+             hiredate varchar(20),
+             sal int,
+            comm int,
+             deptno int foreign key references dept(deptno))
+sp_help tblemp3
+
+insert into tblemp3(empno,ename,job,mgr,hiredate,sal,comm,deptno)values
+(7369,'smith','clerk',7902,'17-dec-80',1900,800,20)
+insert into tblemp3(empno,ename,job,mgr,hiredate,sal,comm,deptno)values
+(7499,'allen','salesman',7698,'20-feb-81',1600,300,30),
+(7521,'waed','salesman',7698,'22-feb-81',1250,1400,30),
+(7566,'jones','manager',7836,'02-apr-81',2975,' ',20)
+
+insert into tblemp3(empno,ename,job,mgr,hiredate,sal,comm,deptno)values
+(7654,'martin','salesman',7698,'28-sep-81',1250,1400,30),
+(7698,'blake','manager',7839,'01-may-81',2850,' ',30),
+(7782,'clark','manager',7839,'09-jun-81',2450,' ',10),
+(7788,'scott','analyst',7566,'19-apr-87',3000,' ',20)
+
+insert into tblemp3(empno,ename,job,mgr,hiredate,sal,comm,deptno)values
+(7839,'king','president',null,'17-nov-81',5000,' ',10),
+(7844,'turner','salesman',7698,'08-sep-81',1500,0,30),
+(7876,'adams','clerk',7788,'23-may-87',1100,' ',20),
+(7901,'james', 'clerk', 7698,'03-DEC-81',950,' ', 30),
+(7903,'ford',' analyst',7566,'03-DEC-81',3000,' ' ,20),
+(7935,' miller',' clerk', 7782,' 23-JAN-82', 1300,' ', 10)
+
+
+
+select* from tblemp3
+select* from dept
+alter table tblemp3 add  age int
+
+--1LIST ALL EMPLOYEES BEGIN WITH 'A'
+select ename from tblemp3 where ename like 'a%'
+
+--2SELECT ALL EMPLOYEES WHO DONT HAVE A MANAGER
+select *from tblemp3 where mgr is null
+
+--3List employee name, number and salary for those employees who earn in the range 1200 to 1400
+select empno,ename,sal from tblemp3 where sal>1200 and sal<1400
+select empno,ename,sal from tblemp3 where sal between 1200 and 1400
+
+--4Give all the employees in the RESEARCH department a 10% pay rise
+select *,sal*0.1+sal risesal from tblemp3 where deptno=(select deptno from dept where dname='research')
+
+--5Find the number of CLERKS employed. Give it a descriptive heading
+select count(job) noofclerk from tblemp3 where job='clerk'
+
+--6Find the average salary for each job type and the number of people employed in each job.
+
+select job,avg(sal) as average_salary,count(empno) noofemp from tblemp3 group by job
+
+--7List the employees with the lowest and highest salary
+select min(sal) lowestsal,max(sal) highestsal from tblemp3 
+
+--8List full details of departments that don't have any employees
+select * from dept where deptno=(select deptno from tblemp3 where ename is null)
+
+--9(Get the names and salaries of all the analysts earning more than 1200 
+--who are based in department 20. Sort the answer by ascending order of name)
+select ename,sal,job from tblemp3
+where job='analyst'  and sal>1200 and deptno=20 
+order by ename
+
+--10For each department, list its name and number together with the total salary paid to employees in that department
+
+select dname,sum(sal) 'salary' from tblemp3 e inner join dept d on e.deptno=d.deptno group by dname
